@@ -1,0 +1,188 @@
+index.html{% extends "Pagina.html" %}
+
+
+{% block content %}
+<div class="mt-6">
+    <!-- Menú -->
+    <div class="text-center">
+        <button type="button" class="btn btn-primary mr-2" onclick="scrollToSection('info')">Información del Proyecto</button>
+        <button type="button" class="btn btn-primary mr-2" onclick="scrollToSection('prediction')">Realizar Predicciones</button>
+        <button type="button" class="btn btn-primary" onclick="scrollToSection('birds')">Listar Aves Entrenadas</button>
+    </div>
+
+<div class="container mt-5">
+    <h1 class="text-center">Clasificación Alada</h1>
+    <h2 class="text-center">Sistema Multiclase para la Identificación Aviar en Ibagué</h2>
+    <p class="text-center">Centrado en técnicas de Deep Learning, con énfasis en la precisión y eficiencia del proceso de clasificación.</p>
+    
+    <div class="text-center mt-4">
+        <h4>Oscar Augusto Diaz Triana</h4>
+        <h5>Universidad Oberta de Cataluña</h5>
+        <p>Master en Ciencia de Datos<br>Deep Learning</p>
+        <p>Tutores de TF:<br>Bernat Bas Pujols<br>Pablo Fernandez Blanco</p>
+        <p>Profesor responsable de la asignatura:<br>Albert Solé</p>
+        <p>2024</p>
+    </div>
+    <div id="prediction" class="mt-5">
+        <h3>Realizar Predicciones</h3>
+        <!-- Contenido de la sección de predicciones -->
+        <div class="mt-5">
+            <form id="upload-file" method="post" enctype="multipart/form-data" class="text-center">
+                <label for="imageUpload" class="btn btn-primary btn-lg">Elegir Imagen</label>
+                <input type="file" name="file" id="imageUpload" accept=".png, .jpg, .jpeg" class="d-none">
+            </form>
+            
+            <div class="image-section" style="display:none;">
+                <div class="img-preview text-center mt-4">
+                    <div id="imagePreview" class="border"></div>
+                </div>
+                <div class="text-center mt-3">
+                    <button type="button" class="btn btn-dark btn-lg" id="btn-predict">Predicción</button>
+                </div>
+            </div>
+            
+            <div class="loader text-center mt-4" style="display:none;"></div>
+            
+            <h3 id="result" class="text-center mt-4">
+                <span></span>
+            </h3>
+            <button type="button" class="btn btn-info mt-3" onclick="scrollToTop()">Ir al inicio</button>
+        </div>
+    </div>
+    
+
+    
+
+        <!-- Secciones -->
+        <div id="info" class="mt-5">
+            <h3>Información del Proyecto</h3>
+            <!-- Contenido de la sección de información -->
+            <p>El proyecto "Clasificación Alada" es un sistema multiclase diseñado para la identificación de aves en la región de Ibagué, con un enfoque centrado en técnicas de Deep Learning. El objetivo principal es proporcionar una herramienta precisa y eficiente para la clasificación de aves a partir de imágenes.</p>
+        <p>El sistema se desarrolla como parte de un trabajo de investigación liderado por Oscar Augusto Diaz Triana, quien posee una maestría en Ciencia de Datos con especialización en Deep Learning. El proyecto cuenta con el apoyo y tutoría de Bernat Bas Pujols y Pablo Fernandez Blanco, así como la supervisión del profesor Albert Solé, quien es el responsable de la asignatura TFM.</p>
+        <p>La metodología del proyecto se basa en el uso de algoritmos de Deep Learning, los cuales son entrenados con un amplio conjunto de datos de imágenes de aves locales. Estos algoritmos son capaces de aprender patrones y características distintivas de cada especie de ave, lo que les permite realizar predicciones precisas sobre nuevas imágenes proporcionadas.</p>
+        <p>La interfaz de usuario del sistema permite a los usuarios cargar una imagen de un ave desconocida y obtener una predicción sobre la especie a la que pertenece. Además, se proporciona un enlace directo a una búsqueda en Google para obtener más información sobre la especie identificada.</p>
+        <p>El proyecto se destaca por su potencial aplicación en la conservación de aves y la biodiversidad local, así como su utilidad en actividades de observación de aves y monitoreo ambiental. Su enfoque en Deep Learning refleja las últimas tendencias en la aplicación de inteligencia artificial para resolver problemas del mundo real.</p>
+        <button type="button" class="btn btn-info mt-3" onclick="scrollToTop()">Ir al inicio</button>
+        </div>
+        
+               
+        <div id="birds" class="mt-5">
+            <h3>Listar Aves Entrenadas</h3>
+            <!-- Contenido de la sección de aves entrenadas -->
+            <div id="birds" class="mt-5">
+                <button type="button" class="btn btn-info mt-3" onclick="scrollToTop()">Ir al inicio</button>
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Imagen</th>
+                                <th>Nombre del Ave</th>
+                                <th>Enlace a Google</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><img src="static/imagen/CATHARTES AURA_7.jpg" alt="CATHARTES AURA_7" width="100"></td>
+                                <td>CATHARTES AURA</td>
+                                <td><a href="https://www.google.com/search?q=CATHARTES AURA" target="_blank">Buscar en Google</a></td>
+                            </tr>
+                            <tr>
+                                <td><img src="static/imagen/COEREBA FLAVEOLA.jpg" alt="COEREBA FLAVEOLA" width="100"></td>
+                                <td>COEREBA FLAVEOLA</td>
+                                <td><a href="https://www.google.com/search?q=COEREBA FLAVEOLA" target="_blank">Buscar en Google</a></td>
+                            </tr>
+                            <tr>
+                                <td><img src="static/imagen/COLUMBA LIVIA_9.jpg" alt="COLUMBA LIVIA_9" width="100"></td>
+                                <td>COLUMBA LIVIA</td>
+                                <td><a href="https://www.google.com/search?q=COLUMBA LIVIA" target="_blank">Buscar en Google</a></td>
+                            </tr>
+                            <tr>
+                                <td><img src="static/imagen/CORAGYPS ATRATUS_19.jpg" alt="CORAGYPS ATRATUS_19" width="100"></td>
+                                <td>CORAGYPS ATRATUS</td>
+                                <td><a href="https://www.google.com/search?q=CORAGYPS ATRATUS" target="_blank">Buscar en Google</a></td>
+                            </tr>
+                            <tr>
+                                <td><img src="static/imagen/CROTOPHAGA SULCIROSTRIS_3.jpg" alt="CROTOPHAGA SULCIROSTRIS_3" width="100"></td>
+                                <td>CROTOPHAGA SULCIROSTRIS</td>
+                                <td><a href="https://www.google.com/search?q=CROTOPHAGA SULCIROSTRIS" target="_blank">Buscar en Google</a></td>
+                            </tr>
+                            <tr>
+                                <td><img src="static/imagen/CYANOCORAX YNCAS_3.jpg" alt="CYANOCORAX YNCAS_3" width="100"></td>
+                                <td>CYANOCORAX YNCAS</td>
+                                <td><a href="https://www.google.com/search?q=CYANOCORAX YNCAS" target="_blank">Buscar en Google</a></td>
+                            </tr>
+                            <tr>
+                                <td><img src="static/imagen/EGRETTA THULA_1.jpg" alt="EGRETTA THULA_1" width="100"></td>
+                                <td>EGRETTA THULA</td>
+                                <td><a href="https://www.google.com/search?q=EGRETTA THULA" target="_blank">Buscar en Google</a></td>
+                            </tr>
+                            <tr>
+                                <td><img src="static/imagen/FALCO PEREGRINUS_9.jpg" alt="FALCO PEREGRINUS_9" width="100"></td>
+                                <td>FALCO PEREGRINUS</td>
+                                <td><a href="https://www.google.com/search?q=FALCO PEREGRINUS" target="_blank">Buscar en Google</a></td>
+                            </tr>
+                            <tr>
+                                <td><img src="static/imagen/FALCO SPARVERIUS_17.jpeg" alt="FALCO SPARVERIUS_17" width="100"></td>
+                                <td>FALCO SPARVERIUS</td>
+                                <td><a href="https://www.google.com/search?q=FALCO SPARVERIUS" target="_blank">Buscar en Google</a></td>
+                            </tr>
+                            <tr>
+                                <td><img src="static/imagen/HIRUNDO RUSTICA_10.jpg
+                                    " alt="HIRUNDO RUSTICA"                                    " width="100"></td>
+                                <td>HIRUNDO RUSTICA</td>
+                                <td><a href="https://www.google.com/search?q=HIRUNDO RUSTICA
+                                    " target="_blank">Buscar en Google</a></td>
+                            </tr>
+                            <tr>
+                                <td><img src="static/imagen/PANDION HALIAETUS_5.jpg" alt="PANDION HALIAETUS" width="100"></td>
+                                <td>PANDION HALIAETUS</td>
+                                <td><a href="https://www.google.com/search?q=PANDION HALIAETUS" target="_blank">Buscar en Google</a></td>
+                            </tr>
+                            <tr>
+                                <td><img src="static/imagen/PILHERODIUS PILEATUS_14.jpeg" alt="PILHERODIUS PILEATUS" width="100"></td>
+                                <td>PILHERODIUS PILEATUS</td>
+                                <td><a href="https://www.google.com/search?q=PILHERODIUS PILEATUS" target="_blank">Buscar en Google</a></td>
+                            </tr>
+                            <tr>
+                                <td><img src="static/imagen/PITANGUS SULPHURATUS_12.jpg" alt="PITANGUS SULPHURATUS" width="100"></td>
+                                <td>PITANGUS SULPHURATUS</td>
+                                <td><a href="https://www.google.com/search?q=PITANGUS SULPHURATUS" target="_blank">Buscar en Google</a></td>
+                            </tr>
+                            <tr>
+                                <td><img src="static/imagen/PYRRHOMYIAS CINNAMOMEUS_14.jpg" alt="PYRRHOMYIAS CINNAMOMEUS" width="100"></td>
+                                <td>PYRRHOMYIAS CINNAMOMEUS</td>
+                                <td><a href="https://www.google.com/search?q=PYRRHOMYIAS CINNAMOMEUS" target="_blank">Buscar en Google</a></td>
+                            </tr>
+                            <tr>
+                                <td><img src="static/imagen/RYNCHOPS NIGER_9.jpg" alt="RYNCHOPS NIGER" width="100"></td>
+                                <td>RYNCHOPS NIGER</td>
+                                <td><a href="https://www.google.com/search?q=RYNCHOPS NIGER" target="_blank">Buscar en Google</a></td>
+                            </tr>
+                            <tr>
+                                <td><img src="static/imagen/SETOPHAGA FUSCA_5.jpg" alt="SETOPHAGA FUSCA" width="100"></td>
+                                <td>SETOPHAGA FUSCA</td>
+                                <td><a href="https://www.google.com/search?q=SETOPHAGA FUSCA" target="_blank">Buscar en Google</a></td>
+                            </tr>
+                            <tr>
+                                <td><img src="static/imagen/SYNALLAXIS AZARAE_17.jpeg" alt="SYNALLAXIS AZARAE" width="100"></td>
+                                <td>SYNALLAXIS AZARAE</td>
+                                <td><a href="https://www.google.com/search?q=SYNALLAXIS AZARAE" target="_blank">Buscar en Google</a></td>
+                            </tr>
+                            <tr>
+                                <td><img src="static/imagen/TYRANNUS MELANCHOLICUS_12.jpg" alt="TYRANNUS MELANCHOLICUS" width="100"></td>
+                                <td>TYRANNUS MELANCHOLICUS</td>
+                                <td><a href="https://www.google.com/search?q=TYRANNUS MELANCHOLICUS" target="_blank">Buscar en Google</a></td>
+                            </tr>
+                            <!-- Agrega las filas restantes para cada ave con el mismo formato -->
+                        </tbody>
+                    </table>
+                    <button type="button" class="btn btn-info mt-3" onclick="scrollToTop()">Ir al inicio</button>
+        </div>
+                </div>
+            </div>
+            
+
+
+        </div>
+</div>
+{% endblock %}
