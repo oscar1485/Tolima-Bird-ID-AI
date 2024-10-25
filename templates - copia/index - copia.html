@@ -1,0 +1,39 @@
+{% extends "Pagina.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center">Clasificación Alada</h1>
+    <h2 class="text-center">Sistema Multiclase para la Identificación Aviar en Ibagué</h2>
+    <p class="text-center">Centrado en técnicas de Deep Learning, con énfasis en la precisión y eficiencia del proceso de clasificación.</p>
+    
+    <div class="text-center mt-4">
+        <h4>Oscar Augusto Diaz Triana</h4>
+        <p>Master en Ciencia de Datos<br>Deep Learning</p>
+        <p>Tutores de TF:<br>Bernat Bas Pujols<br>Pablo Fernandez Blanco</p>
+        <p>Profesor responsable de la asignatura:<br>Albert Solé</p>
+        <p>2024</p>
+    </div>
+    
+    <div class="mt-5">
+        <form id="upload-file" method="post" enctype="multipart/form-data" class="text-center">
+            <label for="imageUpload" class="btn btn-primary btn-lg">Elegir Imagen</label>
+            <input type="file" name="file" id="imageUpload" accept=".png, .jpg, .jpeg" class="d-none">
+        </form>
+        
+        <div class="image-section" style="display:none;">
+            <div class="img-preview text-center mt-4">
+                <div id="imagePreview" class="border"></div>
+            </div>
+            <div class="text-center mt-3">
+                <button type="button" class="btn btn-dark btn-lg" id="btn-predict">Predicción</button>
+            </div>
+        </div>
+        
+        <div class="loader text-center mt-4" style="display:none;"></div>
+        
+        <h3 id="result" class="text-center mt-4">
+            <span></span>
+        </h3>
+    </div>
+</div>
+{% endblock %}

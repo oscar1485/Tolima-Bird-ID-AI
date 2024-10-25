@@ -1,51 +1,101 @@
-.img-preview {
-    width: 300px;
-    height: 300px;
-    position: relative;
-    border: 10px solid #F8F8F8;
-    box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.1);
-    margin: 1em auto;
-    margin-top: 1em;
-    margin-bottom: 1em;    
+/* Estilo general del cuerpo y html */
+body, html {
+    margin: 0; 
+    padding: 0; 
+    font-family: 'Arial', sans-serif; 
+    background-color: #f9f9f9; 
 }
 
-.img-preview>div {
+/* Estilo del banner */
+.banner {
     width: 100%;
-    height: 100%;
-    background-size: 256px 256px;
-    background-repeat: no-repeat;
-    background-position: center;
+    overflow: hidden; 
 }
 
-input[type="file"] {
-    display: none;
+.banner img {
+    width: 100%; 
+    height: auto; 
 }
 
-.upload-label{
-    display: inline-block;
-    padding: 15px 15px;
-    background: #E6BA89;
-    color: #fff;
-    font-size: 1em;
-    transition: all .4s;
-    cursor: pointer;
+/* Contenedor principal para secciones */
+.container {
+    max-width: 1200px; 
+    margin: 0 auto; 
+    padding: 20px; 
+    background-color: #ffffff; 
+    border-radius: 10px; 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
 }
 
-.upload-label:hover{
-    background: #E6BA89;
-    color: #E6BA89;
+/* Secciones con margen y padding */
+section {
+    margin: 20px 0; 
+    padding: 20px; 
+    border-radius: 8px; 
+    background-color: #f1f1f1; 
 }
 
+/* Estilo para las imágenes de previsualización */
+.img-preview {
+    width: 100%; 
+    max-width: 300px; 
+    height: auto; /* Ajuste automático de altura */
+    position: relative; 
+    border: 10px solid #F8F8F8; 
+    box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.1); 
+    margin: 1em auto; 
+}
+
+/* Loader de carga */
 .loader {
-    border: 8px solid #ffffff; 
-    border-top: 8px solid #9089E6; 
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    animation: spin 1s linear infinite;
+    margin: 20px auto; 
+    display: flex; 
+    justify-content: center; 
 }
 
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+/* Botones */
+.btn-predict, .upload-label {
+    width: auto; /* Asegura que el botón se ajuste al contenido */
+    min-width: 150px; /* Ancho mínimo para mejorar la responsividad */
+}
+
+/* Medidas de estilo en pantallas más pequeñas */
+@media (max-width: 768px) {
+    .container {
+        padding: 10px; /* Reduce el padding en pantallas pequeñas */
+    }
+
+    .img-preview {
+        max-width: 100%; /* Ajusta el ancho de la vista previa de imagen en móviles */
+        height: auto; /* Mantiene la relación de aspecto */
+    }
+
+    /* Ajuste para botones en móviles */
+    .btn-predict {
+        width: 100%; /* Botones ocupan el 100% en pantallas pequeñas */
+        margin-top: 10px; /* Espacio superior */
+    }
+}
+
+.navbar-brand {
+    font-size: 2rem; /* Tamaño base del texto */
+}
+
+@media (max-width: 768px) {
+    .navbar-brand {
+        font-size: 1.75rem; /* Tamaño más pequeño para tabletas */
+    }
+}
+
+@media (max-width: 576px) {
+    .navbar-brand {
+        font-size: 1.5rem; /* Tamaño más pequeño para móviles */
+    }
+}
+
+/* Estilos para mantener el header visible */
+header {
+    position: sticky; /* O fixed si prefieres */
+    top: 0; /* Posiciona el header en la parte superior */
+    z-index: 1000; /* Asegura que el header esté por encima del contenido */
 }

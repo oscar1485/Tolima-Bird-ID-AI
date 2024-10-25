@@ -1,92 +1,103 @@
 from __future__ import division, print_function
 
-# Keras
+# Keras / TensorFlow
 from keras.models import load_model
 from keras.applications.imagenet_utils import preprocess_input
 
-# Flask 
-from flask import Flask, request, render_template
+# Flask
+from flask import Flask, request, render_template, jsonify
 from werkzeug.utils import secure_filename
-from flask import Flask, request, jsonify
 
+# Librerías adicionales
 import os
 import numpy as np
 import cv2
 from dotenv import load_dotenv
 
+# Cargar variables de entorno
+load_dotenv()
 
-
+# Crear la aplicación Flask
 def crear_app():
     width_shape = 224
     height_shape = 224
 
-    names = ['CATHARTES AURA', 'COEREBA FLAVEOLA', 'COLUMBA LIVIA', 'CORAGYPS ATRATUS','CROTOPHAGA SULCIROSTRIS', 'CYANOCORAX YNCAS',
-            'EGRETTA THULA', 'FALCO PEREGRINUS','FALCO SPARVERIUS', 'HIRUNDO RUSTICA', 'PANDION HALIAETUS', 'PILHERODIUS PILEATUS',
-            'PITANGUS SULPHURATUS','PYRRHOMYIAS CINNAMOMEUS', 'RYNCHOPS NIGER', 'SETOPHAGA FUSCA','SYNALLAXIS AZARAE', 'TYRANNUS MELANCHOLICUS']
+    # Lista de nombres de aves
+    names = ['CATHARTES AURA', 'COEREBA FLAVEOLA', 'COLUMBA LIVIA', 'CORAGYPS ATRATUS', 'CROTOPHAGA SULCIROSTRIS', 
+             'CYANOCORAX YNCAS', 'EGRETTA THULA', 'FALCO PEREGRINUS', 'FALCO SPARVERIUS', 'HIRUNDO RUSTICA', 
+             'PANDION HALIAETUS', 'PILHERODIUS PILEATUS', 'PITANGUS SULPHURATUS', 'PYRRHOMYIAS CINNAMOMEUS', 
+             'RYNCHOPS NIGER', 'SETOPHAGA FUSCA', 'SYNALLAXIS AZARAE', 'TYRANNUS MELANCHOLICUS']
 
     # Definimos una instancia de Flask
     app = Flask(__name__)
 
-    # Configurar la versión de Bun
-    os.environ["BUN_VERSION"] = "1.1.0"
+    # Cargar el modelo preentrenado desde una ruta segura
+    MODEL_PATH = os.getenv('MODEL_PATH', 'models/optimizado.keras')
 
-    # Path del modelo preentrenado
-    MODEL_PATH = 'models/optimizado.keras'
+    # Verificar si el modelo existe
+    if not os.path.exists(MODEL_PATH):
+        raise ValueError(f"El modelo no se encontró en la ruta especificada: {MODEL_PATH}")
 
-    # Cargamos el modelo preentrenado
+    # Cargar el modelo
     model = load_model(MODEL_PATH)
+    print('Modelo cargado exitosamente. Verificar http://127.0.0.1:5000/')
 
-    print('Modelo cargado exitosamente. Verificar http://127.0.0.1:10000/')
-
-    # Realizamos la predicción usando la imagen cargada y el modelo
+    # Función para predecir a partir de una imagen
     def model_predict(img_path, model):
+        try:
+            img = cv2.resize(cv2.imread(img_path), (width_shape, height_shape), interpolation=cv2.INTER_AREA)
+            x = np.asarray(img)
+            x = preprocess_input(x)
+            x = np.expand_dims(x, axis=0)
+            
+            preds = model.predict(x)
+            return preds
+        except Exception as e:
+            print(f"Error en la predicción: {e}")
+            return None
 
-        img=cv2.resize(cv2.imread(img_path), (width_shape, height_shape), interpolation = cv2.INTER_AREA)
-        x=np.asarray(img)
-        x=preprocess_input(x)
-        x = np.expand_dims(x,axis=0)
-        
-        preds = model.predict(x)
-        return preds
-
-
+    # Ruta principal
     @app.route('/', methods=['GET'])
     def index():
-        # Página principal
         return render_template('index.html')
 
-
-    @app.route('/predict', methods=['GET', 'POST'])
+    # Ruta de predicción
+    @app.route('/predict', methods=['POST'])
     def upload():
         if request.method == 'POST':
-            try:
-                # Obtiene el archivo del request
-                f = request.files['file']
+            # Validar si el archivo está presente
+            if 'file' not in request.files:
+                return jsonify({'error': 'No se encontró archivo para cargar.'}), 400
 
-                # Graba el archivo en ./uploads
-                basepath = os.path.dirname(__file__)
-                file_path = os.path.join(basepath, 'uploads', secure_filename(f.filename))
-                f.save(file_path)
+            f = request.files['file']
 
-                # Predicción
-                preds = model_predict(file_path, model)  # Asegúrate de que esta función esté definida
+            # Validar tipo de archivo
+            if f.filename == '' or not f.filename.lower().endswith(('.png', '.jpg', '.jpeg')):
+                return jsonify({'error': 'Tipo de archivo no permitido. Solo se permiten imágenes (.png, .jpg, .jpeg)'}), 400
 
-                # Obtener la clase con mayor probabilidad
-                pred_class = names[np.argmax(preds)]
-                print('PREDICCIÓN:', pred_class)
+            # Guardar el archivo de manera segura
+            basepath = os.path.dirname(__file__)
+            upload_dir = os.path.join(basepath, 'uploads')
+            if not os.path.exists(upload_dir):
+                os.makedirs(upload_dir)
+            
+            file_path = os.path.join(upload_dir, secure_filename(f.filename))
+            f.save(file_path)
 
-                # Enviamos el resultado de la predicción en formato JSON
-                return jsonify({"predicción": pred_class}), 200
-            except Exception as e:
-                print(f'Error en la predicción: {str(e)}')
-                return jsonify({"error": "Error en la predicción. Intente nuevamente."}), 500
+            # Realizar predicción
+            preds = model_predict(file_path, model)
+            if preds is None:
+                return jsonify({'error': 'Ocurrió un error durante la predicción.'}), 500
 
-        return jsonify({"message": "Método no permitido."}), 405  # Manejo para métodos GET
+            # Enviar el resultado de la predicción
+            result = names[np.argmax(preds)]
+            return jsonify({'result': result})
+        return jsonify({'error': 'Método no permitido'}), 405
+
     return app
-
 
 
 if __name__ == '__main__':
     app = crear_app()
-    port = int(os.environ.get('PORT', 10000))
+    port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port)

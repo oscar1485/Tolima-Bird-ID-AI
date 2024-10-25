@@ -1,0 +1,90 @@
+{% extends "Pagina.html" %}
+
+{% block content %}
+<div class="mt-6">
+    <!-- Menú -->
+    <div class="text-center">
+        <button type="button" class="btn btn-primary mr-2" onclick="scrollToSection('info')">Información del Proyecto</button>
+        <button type="button" class="btn btn-primary mr-2" onclick="scrollToSection('prediction')">Realizar Predicciones</button>
+        <button type="button" class="btn btn-primary" onclick="scrollToSection('birds')">Listar Aves Entrenadas</button>
+    </div>
+
+    <div class="container mt-5">
+        <h1 class="text-center">Clasificación Alada</h1>
+        <h2 class="text-center">Sistema Multiclase para la Identificación Aviar en Ibagué</h2>
+        <p class="text-center">Centrado en técnicas de Deep Learning, con énfasis en la precisión y eficiencia del proceso de clasificación.</p>
+        
+        <div class="text-center mt-4">
+            <h4>Oscar Augusto Diaz Triana</h4>
+            <h5>Blessed Data Solutions</h5>
+            <p>2024</p>
+        </div>
+        
+        <div id="prediction" class="mt-5">
+            <h3>Realizar Predicciones</h3>
+            <!-- Contenido de la sección de predicciones -->
+            <div class="mt-5">
+                <form id="upload-file" method="post" enctype="multipart/form-data" class="text-center">
+                    <label for="imageUpload" class="btn btn-primary btn-lg">Elegir Imagen</label>
+                    <input type="file" name="file" id="imageUpload" accept=".png, .jpg, .jpeg" class="d-none">
+                </form>
+                
+                <div class="image-section" style="display:none;">
+                    <div class="img-preview text-center mt-4">
+                        <div id="imagePreview" class="border"></div>
+                    </div>
+                    <div class="text-center mt-3">
+                        <button type="button" class="btn btn-dark btn-lg" id="btn-predict">Predicción</button>
+                    </div>
+                </div>
+                
+                <div class="loader text-center mt-4" style="display:none;"></div>
+                
+                <h3 id="result" class="text-center mt-4">
+                    <span></span>
+                </h3>
+                <button type="button" class="btn btn-info mt-3" onclick="scrollToTop()">Ir al inicio</button>
+            </div>
+        </div>
+        
+        <!-- Secciones -->
+        <div id="info" class="mt-5">
+            <h3>Información del Proyecto</h3>
+            <!-- Contenido de la sección de información -->
+            <p>El proyecto "Clasificación Alada" es un sistema multiclase diseñado para la identificación de aves en la región de Ibagué, con un enfoque centrado en técnicas de Deep Learning. El objetivo principal es proporcionar una herramienta precisa y eficiente para la clasificación de aves a partir de imágenes.</p>
+            <p>El sistema se desarrolla como parte de un trabajo de investigación liderado por Oscar Augusto Diaz Triana. 
+                
+            <p>La metodología del proyecto se basa en el uso de algoritmos de Deep Learning, los cuales son entrenados con un amplio conjunto de datos de imágenes de aves locales. Estos algoritmos son capaces de aprender patrones y características distintivas de cada especie de ave, lo que les permite realizar predicciones precisas sobre nuevas imágenes proporcionadas.</p>
+            
+            <p>La interfaz de usuario del sistema permite a los usuarios cargar una imagen de un ave desconocida y obtener una predicción sobre la especie a la que pertenece. Además, se proporciona un enlace directo a una búsqueda en Google para obtener más información sobre la especie identificada.</p>
+            <p>El proyecto se destaca por su potencial aplicación en la conservación de aves y la biodiversidad local, así como su utilidad en actividades de observación de aves y monitoreo ambiental. Su enfoque en Deep Learning refleja las últimas tendencias en la aplicación de inteligencia artificial para resolver problemas del mundo real.</p>
+            <button type="button" class="btn btn-info mt-3" onclick="scrollToTop()">Ir al inicio</button>
+        </div>
+        
+        <div id="birds" class="mt-5">
+            <h3>Listar Aves Entrenadas</h3>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Imagen</th>
+                            <th>Nombre del Ave</th>
+                            <th>Enlace a Google</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for bird in bird_list %}
+                        <tr>
+                            <td><img src="{{ bird.image }}" alt="{{ bird.name }}" width="100"></td>
+                            <td>{{ bird.name }}</td>
+                            <td><a href="https://www.google.com/search?q={{ bird.name }}" target="_blank">Buscar en Google</a></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <button type="button" class="btn btn-info mt-3" onclick="scrollToTop()">Ir al inicio</button>
+        </div>
+    </div>
+</div>
+{% endblock %}
