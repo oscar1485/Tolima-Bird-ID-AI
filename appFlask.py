@@ -40,7 +40,7 @@ def crear_app():
 
     # Cargar el modelo
     model = load_model(MODEL_PATH)
-    print('Modelo cargado exitosamente. Verificar http://127.0.0.1:5000/')
+    print('Modelo cargado exitosamente. Verificar http://127.0.0.1:10000/')
 
     # Función para predecir a partir de una imagen
     def model_predict(img_path, model):
@@ -99,5 +99,5 @@ def crear_app():
 
 if __name__ == '__main__':
     app = crear_app()
-    port = int(os.environ.get('PORT', 5000))
+    port = int(os.environ.get('PORT', 10000))
     app.run(host='0.0.0.0', port=port)
